@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Pengujian & Evaluasi — Corn Disease{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <div class="eyebrow">MODEL EVALUATION</div>
+    <h1>Pengujian &amp; Evaluasi Model</h1>
+    <p>Evaluasi performa model menggunakan dataset Train, Validation, dan Test serta perbandingan C4.5, Gaussian Naive Bayes, dan KNN.</p>
+  </div>
+  <span class="heading-badge"><i class="bi bi-bar-chart-line"></i> Evaluation</span>
+</div>
+
+<div class="dataset-eval-grid" id="datasetEvalCards">
+  <div class="dataset-eval-card"><span>TRAIN</span><strong>—</strong><small>Data pembelajaran</small></div>
+  <div class="dataset-eval-card"><span>VALIDATION</span><strong>—</strong><small>Pemilihan model</small></div>
+  <div class="dataset-eval-card"><span>TEST</span><strong>—</strong><small>Evaluasi akhir</small></div>
+  <div class="dataset-eval-card"><span>FITUR</span><strong>—</strong><small>Feature vector</small></div>
+</div>
+
+<div class="eval-tabs">
+  <button class="eval-tab active" data-eval-tab="summary">Hasil Perbandingan</button>
+  <button class="eval-tab" data-eval-tab="c45">C4.5 (Decision Tree)</button>
+  <button class="eval-tab" data-eval-tab="gnb">Gaussian Naive Bayes</button>
+  <button class="eval-tab" data-eval-tab="knn">KNN</button>
+</div>
+
+<div id="evalSummary" class="eval-view">
+  <div class="panel mb-4">
+    <div class="panel-header">
+      <div><span class="panel-kicker">BENCHMARK TEST</span><h2>Perbandingan Model</h2></div>
+      <span class="text-secondary small" id="selectionBasis">Model terbaik dipilih berdasarkan validation</span>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-dark-custom align-middle" id="modelTable">
+        <thead><tr><th>Model</th><th>K</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Waktu</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-xl-8">
+      <div class="panel best-model-card">
+        <div class="panel-kicker">★ HASIL TERBAIK</div>
+        <div class="best-model-name" id="bestModelName">—</div>
+        <div class="best-model-k"><span id="bestModelK">—</span></div>
+        <div class="best-model-note">Dipilih dari Validation Set. Test Set hanya digunakan untuk evaluasi akhir.</div>
+        <div class="best-metrics">
+          <div><small>Validation Accuracy</small><strong id="bestAccuracy">—</strong></div>
+          <div><small>Validation F1</small><strong id="bestF1">—</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="panel h-100">
+        <div class="panel-header"><div><span class="panel-kicker">DATASET</span><h2>Protokol Evaluasi</h2></div></div>
+        <div class="detail-list">
+          <div><span>Train</span><strong id="protocolTrain">—</strong></div>
+          <div><span>Validation</span><strong id="protocolVal">—</strong></div>
+          <div><span>Final fit</span><strong id="protocolFit">—</strong></div>
+          <div><span>Test</span><strong id="protocolTest">—</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel mb-4">
+    <div class="panel-header">
+      <div><span class="panel-kicker">CONFUSION MATRIX</span><h2>Test Set — Semua Algoritma</h2></div>
+      <span class="text-secondary small">C4.5, Gaussian NB, KNN k=1/3/5/7/9</span>
+    </div>
+    <div id="allMatrices" class="all-matrices-grid"></div>
+  </div>
+
+  <div class="panel mb-4">
+    <div class="panel-header">
+      <div><span class="panel-kicker">PERHITUNGAN METRIK</span><h2>Langkah Perhitungan Setiap Algoritma</h2></div>
+      <span class="text-secondary small">Menggunakan confusion matrix Test Set</span>
+    </div>
+    <div id="metricCalculations" class="calculation-list"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div><span class="panel-kicker">CLASSIFICATION REPORT</span><h2>Test Set</h2></div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-dark-custom" id="classificationTable">
+        <thead><tr><th>Model</th><th>Kelas</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="evalC45" class="eval-view d-none">
+  <div class="panel">
+    <div class="panel-header"><div><span class="panel-kicker">DECISION TREE</span><h2>Detail C4.5</h2></div></div>
+    <div id="c45Content" class="model-detail-grid"></div>
+  </div>
+</div>
+
+<div id="evalGnb" class="eval-view d-none">
+  <div class="panel">
+    <div class="panel-header"><div><span class="panel-kicker">PROBABILISTIC MODEL</span><h2>Gaussian Naive Bayes</h2></div></div>
+    <div id="gnbContent" class="model-detail-grid"></div>
+  </div>
+</div>
+
+<div id="evalKnn" class="eval-view d-none">
+  <div class="panel">
+    <div class="panel-header"><div><span class="panel-kicker">DISTANCE-BASED MODEL</span><h2>Perbandingan K = 1, 3, 5, 7, 9</h2></div></div>
+    <div id="knnContent" class="model-detail-grid"></div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/evaluation.js') }}?v=20260814-7"></script>{% endblock %}

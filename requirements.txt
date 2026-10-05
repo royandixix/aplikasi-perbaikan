@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+python-dotenv
+opencv-python
+numpy
+pandas
+scikit-image
+scikit-learn
+matplotlib
+seaborn
+Pillow
+joblib
+pytest

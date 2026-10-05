@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Basis Gejala — Corn Disease{% endblock %}
+{% block content %}<div class="page-heading"><div><div class="eyebrow">KNOWLEDGE BASE</div><h1>Basis Gejala</h1><p>Gejala pendukung untuk tiga kelas penyakit daun jagung.</p></div></div><div class="row g-4" id="symptomsPage"></div>{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/symptoms.js') }}"></script><script>loadSymptomsPage();</script>{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Uji Citra — Corn Disease{% endblock %}
+{% block topbar_page %}Uji Citra{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <div class="eyebrow">UJI CITRA</div>
+    <h1>Pengujian Citra Daun Jagung</h1>
+    <p>Upload gambar atau gunakan kamera untuk menguji citra terhadap model klasifikasi penyakit daun jagung.</p>
+  </div>
+  <span class="heading-badge"><i class="bi bi-camera2"></i> Uji Citra</span>
+</div>
+
+<div class="row g-4">
+  <div class="col-xl-5">
+    <div class="panel">
+      <div class="panel-header">
+        <div><span class="panel-kicker">CITRA INPUT</span><h2>Upload atau Kamera</h2></div>
+      </div>
+      <div class="eval-upload-tabs">
+        <button class="eval-input-tab active" data-image-input="upload" type="button"><i class="bi bi-cloud-arrow-up"></i> Upload</button>
+        <button class="eval-input-tab" data-image-input="camera" type="button"><i class="bi bi-camera"></i> Kamera</button>
+      </div>
+      <div id="evalUploadPane" class="eval-input-pane">
+        <label class="dropzone compact" for="evalImageInput">
+          <div class="drop-icon"><i class="bi bi-image"></i></div>
+          <div class="drop-title">Pilih citra untuk diuji</div>
+          <div class="drop-subtitle">JPG, PNG, JPEG · Maks. 10 MB</div>
+          <input id="evalImageInput" type="file" accept="image/*" hidden>
+        </label>
+      </div>
+      <div id="evalCameraPane" class="eval-input-pane d-none">
+        <div class="camera-frame eval-camera"><video id="evalCameraVideo" autoplay playsinline muted></video></div>
+        <div class="camera-controls">
+          <button class="btn btn-accent" id="evalStartCamera" type="button"><i class="bi bi-camera-video"></i> Aktifkan Kamera</button>
+          <button class="btn btn-outline-soft" id="evalCaptureCamera" type="button" disabled><i class="bi bi-circle-fill"></i> Ambil</button>
+        </div>
+      </div>
+      <div class="eval-image-preview" id="evalImagePreview"><div class="empty-visual"><i class="bi bi-image"></i><span>Belum ada citra</span></div></div>
+      <div class="px-3 pb-2">
+        <label class="form-label small text-secondary mb-1" for="evalTrueLabel">Label sebenarnya (opsional)</label>
+        <select class="form-select form-select-sm" id="evalTrueLabel">
+          <option value="">Tidak diketahui — jangan hitung accuracy citra tunggal</option>
+          <option value="Bercak_Daun">Bercak Daun</option>
+          <option value="Bulai_Daun">Bulai Daun</option>
+          <option value="Hawar_Daun">Hawar Daun</option>
+        </select>
+      </div>
+      <div class="p-3"><button class="btn btn-primary-glow w-100" id="runImageEvaluation" disabled type="button"><i class="bi bi-cpu"></i> Uji terhadap Model</button></div>
+    </div>
+  </div>
+
+  <div class="col-xl-7">
+    <div class="panel h-100">
+      <div class="panel-header">
+        <div><span class="panel-kicker">HASIL UJI CITRA</span><h2>Prediksi &amp; Kemiripan Dataset</h2></div>
+      </div>
+      <div id="imageEvalEmpty" class="result-empty"><i class="bi bi-activity"></i><p>Belum ada citra yang diuji.</p><small>Upload atau ambil gambar dengan kamera untuk melihat hasil model.</small></div>
+      <div id="imageEvalContent" class="d-none">
+        <div class="image-eval-summary" id="imageEvalSummary"></div>
+        <div class="image-model-table-wrap">
+          <table class="table table-dark-custom" id="imageModelTable">
+            <thead><tr><th>Model</th><th>Prediksi</th><th>Confidence</th><th>Kesesuaian Label</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="split-similarity" id="splitSimilarity"></div>
+        <small class="text-secondary d-block px-3 pb-3">Accuracy citra tunggal hanya dihitung bila label sebenarnya diberikan.</small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/image_test.js') }}?v=20260814-1"></script>{% endblock %}
